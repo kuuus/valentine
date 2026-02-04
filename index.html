@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Will you be My Valentine?</title>
+    <title>For Mayalou</title>
     <style>
         body {
             margin: 0;
@@ -25,6 +25,7 @@
             z-index: 10;
             text-align: center;
             transition: all 0.5s ease;
+            padding: 0 20px;
         }
 
         .btn-container {
@@ -58,7 +59,7 @@
             background-color: #9e9e9e;
             color: white;
             position: absolute;
-            left: calc(50% + 10px); /* Start it slightly to the right of center */
+            left: calc(50% + 20px);
             transition: 0.1s;
         }
 
@@ -79,7 +80,7 @@
 </head>
 <body>
 
-    <h1 id="question"> Will you be my Valentine mayalou? ❤️</h1>
+    <h1 id="question">Will you be my valentine mayalou? ❤️</h1>
 
     <div class="btn-container" id="buttonWrap">
         <button id="yesButton" onclick="celebrate()">Yes</button>
@@ -106,14 +107,14 @@
 
         // 2. Success Function
         function celebrate() {
-            // Change the text
-            question.innerHTML = "Yay! See you on the 14th! 🌹✨";
+            // Updated success message
+            question.innerHTML = "Yay! See you on the 14th Mayalou! 🌹✨";
             question.style.fontSize = "3.5rem";
             
-            // Hide BOTH buttons and their container
+            // Hide BOTH buttons
             buttonWrap.style.display = "none";
             
-            // Speed up the hearts for a "celebration" effect
+            // Explosion of hearts
             setInterval(createHeart, 100);
         }
 
@@ -130,7 +131,7 @@
             setTimeout(() => { heart.remove(); }, 5000);
         }
 
-        // Keep a steady flow of hearts from the start
+        // Start initial gentle heart fall
         setInterval(createHeart, 400);
     </script>
 </body>
