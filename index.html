@@ -1,12 +1,10 @@
-HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine?</title>
+    <title>Mayalou will you be My Valentine?</title>
     <style>
-        /* General Setup */
         body {
             margin: 0;
             padding: 0;
@@ -24,14 +22,14 @@ HTML
             color: #d81b60;
             font-size: 2.5rem;
             margin-bottom: 30px;
-            z-index: 10; /* Keeps text above falling hearts */
+            z-index: 10;
             text-align: center;
+            transition: all 0.5s ease;
         }
 
-        /* Button Container to keep them organized */
         .btn-container {
             position: relative;
-            width: 300px;
+            width: 100%;
             height: 100px;
             display: flex;
             justify-content: center;
@@ -46,7 +44,6 @@ HTML
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
@@ -54,16 +51,17 @@ HTML
             background-color: #ff4081;
             color: white;
             margin-right: 20px;
+            z-index: 11;
         }
 
         #noButton {
             background-color: #9e9e9e;
             color: white;
-            position: absolute; /* Needed for the "chase" effect */
-            left: 160px; /* Starting position */
+            position: absolute;
+            left: calc(50% + 10px); /* Start it slightly to the right of center */
+            transition: 0.1s;
         }
 
-        /* Falling Hearts Animation */
         .heart {
             position: fixed;
             top: -10px;
@@ -75,9 +73,7 @@ HTML
         }
 
         @keyframes fall {
-            to {
-                transform: translateY(105vh) rotate(360deg);
-            }
+            to { transform: translateY(105vh) rotate(360deg); }
         }
     </style>
 </head>
@@ -85,7 +81,7 @@ HTML
 
     <h1 id="question">Will you be my Valentine? ❤️</h1>
 
-    <div class="btn-container">
+    <div class="btn-container" id="buttonWrap">
         <button id="yesButton" onclick="celebrate()">Yes</button>
         <button id="noButton">No</button>
     </div>
@@ -94,10 +90,10 @@ HTML
         const noButton = document.getElementById("noButton");
         const yesButton = document.getElementById("yesButton");
         const question = document.getElementById("question");
+        const buttonWrap = document.getElementById("buttonWrap");
 
         // 1. Moving the No Button
         noButton.addEventListener("mouseover", () => {
-            // Get screen dimensions minus button size to keep it on screen
             const maxX = window.innerWidth - noButton.offsetWidth;
             const maxY = window.innerHeight - noButton.offsetHeight;
 
@@ -110,12 +106,14 @@ HTML
 
         // 2. Success Function
         function celebrate() {
-            question.innerHTML = "Yay! Best Valentine ever! 🌹✨";
-            noButton.style.display = "none"; // Delete the no button
-            yesButton.style.position = "static"; 
-            yesButton.style.transform = "scale(2)";
+            // Change the text
+            question.innerHTML = "Yay! See you on the 14th! 🌹✨";
+            question.style.fontSize = "3.5rem";
             
-            // Start extra hearts when Yes is clicked
+            // Hide BOTH buttons and their container
+            buttonWrap.style.display = "none";
+            
+            // Speed up the hearts for a "celebration" effect
             setInterval(createHeart, 100);
         }
 
@@ -129,14 +127,11 @@ HTML
             heart.style.opacity = Math.random();
             document.body.appendChild(heart);
 
-            // Remove heart from code after it falls to keep page fast
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+            setTimeout(() => { heart.remove(); }, 5000);
         }
 
-        // Create a few hearts on load
-        setInterval(createHeart, 500);
+        // Keep a steady flow of hearts from the start
+        setInterval(createHeart, 400);
     </script>
 </body>
 </html>
