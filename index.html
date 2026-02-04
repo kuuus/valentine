@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Be My Valentine?</title>
+    <style>
+        body { background-color: #ffebee; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; overflow: hidden; }
+        .container { text-align: center; }
+        button { padding: 15px 30px; font-size: 1.2rem; border: none; border-radius: 10px; cursor: pointer; position: absolute; }
+        #yesButton { background-color: #ff4081; color: white; transform: translate(-80px, 50px); }
+        #noButton { background-color: #9e9e9e; color: white; transform: translate(80px, 50px); transition: 0.1s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="question">Will you be my Valentine? ❤️</h1>
+        <button id="yesButton" onclick="celebrate()">Yes</button>
+        <button id="noButton">No</button>
+    </div>
+
+    <script>
+        const noButton = document.getElementById("noButton");
+        const yesButton = document.getElementById("yesButton");
+        const question = document.getElementById("question");
+
+        // This makes the button move when the mouse gets close
+        noButton.addEventListener("mouseover", () => {
+            const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+            noButton.style.left = x + "px";
+            noButton.style.top = y + "px";
+        });
+
+        function celebrate() {
+            question.innerHTML = "Yay! See you on the 14th! 🌹";
+            noButton.style.display = "none";
+            yesButton.style.left = "50%";
+            yesButton.style.top = "50%";
+            yesButton.style.transform = "translate(-50%, -50%) scale(2)";
+        }
+    </script>
+</body>
+</html>
