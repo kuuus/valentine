@@ -1,18 +1,91 @@
+HTML
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Be My Valentine?</title>
     <style>
-        body { background-color: #ffebee; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; overflow: hidden; }
-        .container { text-align: center; }
-        button { padding: 15px 30px; font-size: 1.2rem; border: none; border-radius: 10px; cursor: pointer; position: absolute; }
-        #yesButton { background-color: #ff4081; color: white; transform: translate(-80px, 50px); }
-        #noButton { background-color: #9e9e9e; color: white; transform: translate(80px, 50px); transition: 0.1s; }
+        /* General Setup */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffebee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #d81b60;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            z-index: 10; /* Keeps text above falling hearts */
+            text-align: center;
+        }
+
+        /* Button Container to keep them organized */
+        .btn-container {
+            position: relative;
+            width: 300px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        #yesButton {
+            background-color: #ff4081;
+            color: white;
+            margin-right: 20px;
+        }
+
+        #noButton {
+            background-color: #9e9e9e;
+            color: white;
+            position: absolute; /* Needed for the "chase" effect */
+            left: 160px; /* Starting position */
+        }
+
+        /* Falling Hearts Animation */
+        .heart {
+            position: fixed;
+            top: -10px;
+            font-size: 20px;
+            color: #ff4081;
+            user-select: none;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 id="question">Will you be my Valentine? ❤️</h1>
+
+    <h1 id="question">Will you be my Valentine? ❤️</h1>
+
+    <div class="btn-container">
         <button id="yesButton" onclick="celebrate()">Yes</button>
         <button id="noButton">No</button>
     </div>
@@ -22,21 +95,48 @@
         const yesButton = document.getElementById("yesButton");
         const question = document.getElementById("question");
 
-        // This makes the button move when the mouse gets close
+        // 1. Moving the No Button
         noButton.addEventListener("mouseover", () => {
-            const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
-            noButton.style.left = x + "px";
-            noButton.style.top = y + "px";
+            // Get screen dimensions minus button size to keep it on screen
+            const maxX = window.innerWidth - noButton.offsetWidth;
+            const maxY = window.innerHeight - noButton.offsetHeight;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            noButton.style.left = randomX + "px";
+            noButton.style.top = randomY + "px";
         });
 
+        // 2. Success Function
         function celebrate() {
-            question.innerHTML = "Yay! See you on the 14th! 🌹";
-            noButton.style.display = "none";
-            yesButton.style.left = "50%";
-            yesButton.style.top = "50%";
-            yesButton.style.transform = "translate(-50%, -50%) scale(2)";
+            question.innerHTML = "Yay! Best Valentine ever! 🌹✨";
+            noButton.style.display = "none"; // Delete the no button
+            yesButton.style.position = "static"; 
+            yesButton.style.transform = "scale(2)";
+            
+            // Start extra hearts when Yes is clicked
+            setInterval(createHeart, 100);
         }
+
+        // 3. Falling Hearts Logic
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+
+            // Remove heart from code after it falls to keep page fast
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // Create a few hearts on load
+        setInterval(createHeart, 500);
     </script>
 </body>
 </html>
